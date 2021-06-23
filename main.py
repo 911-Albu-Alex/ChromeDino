@@ -23,9 +23,15 @@ while True:
     grayImage = ImageOps.grayscale(_image)
     array = numpy.array(grayImage.getcolors())
     value_ = array.sum()
-    if ((value != previous_value and value_ == previous_value) or (value == previous_value and value_ != previous_value)) and previous_value != 0:
-        keyboard.press('space')
-    previous_value = value
+    if previous_value != 0:
+        if value != previous_value:
+            keyboard.press('space')
+            previous_value = value
+        elif value_ != previous_value:
+            keyboard.press('space')
+            previous_value = value_
+    else:
+        previous_value = value
     box2 = (x2Coordinate, y2Coordinate, x2Coordinate+x2Offset, y2Coordinate+y2Offset)
     image = ImageGrab.grab(box2)
     grayImage = ImageOps.grayscale(image)
@@ -41,4 +47,4 @@ while True:
         x1Coordinate = numpy.ceil(x1Coordinate)
         ticks = 0
     else:
-        ticks += 1
+        ticks +=1
