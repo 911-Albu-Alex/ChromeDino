@@ -1,3 +1,5 @@
+import time
+
 from PIL import ImageGrab, ImageOps
 import numpy
 import keyboard
@@ -47,6 +49,9 @@ while True:
         if value != initial_state:
             keyboard.press('space')
         elif value_ != initial_state:
+            keyboard.press('space')
+        elif valueBird != initial_state:
+            time.sleep(0.5)
             keyboard.press('space')
         if valueBird != initial_state:
             keyboard.press('down')
