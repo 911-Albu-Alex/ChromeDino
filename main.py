@@ -53,18 +53,18 @@ while True:
     valueBird = turn_box_into_array_sum(boxBird)
     valueFar = turn_box_into_array_sum(boxFar)
     if initial_state != 0:
-        if value_ != initial_state:
+        if valueFar != initial_state:
             press_space()
         if value != initial_state:
             press_space()
-        if valueFar != initial_state:
+        if value_ != initial_state:
             press_space()
         if valueBird != initial_state:
             keyboard.press('down')
     else:
         initial_state = value
     if ticks == 100:
-        difficulty_modifier *= 1.01
+        difficulty_modifier *= 1.03
         x1Coordinate = multiply_coordinate(x1Coordinate, difficulty_modifier)
         x3Coordinate = multiply_coordinate(x3Coordinate, difficulty_modifier)
         farX = multiply_coordinate(farX, difficulty_modifier)
