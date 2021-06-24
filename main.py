@@ -81,33 +81,42 @@ def multiply_coordinate(coordinate, modifier):
 
 
 def reset_values():
-    return 480, 520, 1, 0
+    return 480, 520, 1, 0, 235, 490
 
 
+tick_reset = 235
 image = pyautogui.screenshot()
 closeX, closeY = 480, 292
 farX, farY = 520, 292
+birdX, birdY = 490, 261
 difficulty_modifier = 1
 ticks = 0
 initial_state = image.getpixel((closeX, closeY))
 while True:
     if win32api.GetKeyState(0x01) < 0:
         print("Game restart!")
-        closeX, farX, difficulty_modifier, ticks = reset_values()
+        closeX, farX, difficulty_modifier, ticks, tick_reset, birdX = reset_values()
     if keyboard.is_pressed('q'):
         print("Stopping game!")
         break
     image = pyautogui.screenshot()
     closePixel = image.getpixel((closeX, closeY))
     farPixel = image.getpixel((farX, farY))
+    birdPixel = image.getpixel((birdX, birdY))
     if closePixel[0] != initial_state[0]:
         keyboard.press('space')
     elif farPixel[0] != initial_state[0]:
         keyboard.press('space')
-    if ticks == 225:
+    if birdPixel[0] != initial_state[0]:
+        keyboard.press('down')
+        time.sleep(0.3)
+        keyboard.release('down')
+        birdX *= 1.10
+    if ticks == tick_reset:
         difficulty_modifier *= 1.009
         farX = multiply_coordinate(farX, difficulty_modifier)
         closeX = multiply_coordinate(closeX, difficulty_modifier)
+        tick_reset = multiply_coordinate(tick_reset, 1.07)
         print(ticks)
         ticks = 0
     else:
