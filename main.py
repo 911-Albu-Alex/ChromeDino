@@ -6,12 +6,14 @@ import keyboard
 import win32api
 
 initial_state = 0
+initial_state_down = 0
 ticks = 0
 difficulty_modifier = 1
-x1Coordinate, y1Coordinate, x1Offset, y1Offset = 510, 292, 10, 1
-x3Coordinate, y3Coordinate, x3Offset, y3Offset = 490, 292, 10, 1
+x1Coordinate, y1Coordinate, x1Offset, y1Offset = 530, 290, 10, 1
+x3Coordinate, y3Coordinate, x3Offset, y3Offset = 510, 290, 10, 1
 birdXCoordinate, birdYCoordinate, xOffset, yOffset = 460, 261, 10, 1
-farX, farY, farXOffset, farYOffset = 535, 292, 10, 1
+farX, farY, farXOffset, farYOffset = 555, 290, 10, 1
+isdownX, isdownY = 394, 294
 
 
 def turn_box_into_array_sum(box):
@@ -29,7 +31,7 @@ def multiply_coordinate(coordinate, modifier):
 
 
 def reset_values():
-    return 0, 0, 1, 510, 490
+    return 0, 0, 1, 530, 510
 
 
 while True:
@@ -42,21 +44,44 @@ while True:
     box1 = (x1Coordinate, y1Coordinate, x1Coordinate + x1Offset, y1Coordinate + y1Offset)
     box3 = (x3Coordinate, y3Coordinate, x3Coordinate + x3Offset, y3Coordinate + y3Offset)
     boxBird = (birdXCoordinate, birdYCoordinate, birdXCoordinate + xOffset, birdYCoordinate + yOffset)
+    boxFar = (farX, farY, farX + farXOffset, farY + farYOffset)
     value = turn_box_into_array_sum(box1)
     value_ = turn_box_into_array_sum(box3)
     valueBird = turn_box_into_array_sum(boxBird)
-    if initial_state != 0:
-        if value != initial_state:
+    valueFar = turn_box_into_array_sum(boxFar)
+    boxDown = (isdownX, isdownY, xOffset, yOffset)
+    valueDown = turn_box_into_array_sum(boxDown)
+    # if initial_state != 0:
+    #     if valueFar != initial_state:
+    #         if value != initial_state:
+    #             time.sleep(0.01)
+    #             keyboard.press('space')
+    #         elif value_ != initial_state:
+    #             time.sleep(0.01)
+    #             keyboard.press('space')
+    #     else:
+    #         if value_ != initial_state:
+    #             time.sleep(0.01)
+    #             keyboard.press('space')
+    #         elif value != initial_state:
+    #             time.sleep(0.01)
+    #             keyboard.press('space')
+    #     if valueBird != initial_state:
+    #         keyboard.press('down')
+    # else:
+    #     initial_state = value
+    if initial_state != 0 and valueDown == initial_state_down:
+        if valueFar != initial_state:
+            time.sleep(0.01)
             keyboard.press('space')
-        elif value_ != initial_state:
-            keyboard.press('space')
-        elif valueBird != initial_state:
-            time.sleep(0.5)
+        elif value_ != initial_state or value != initial_state:
+            time.sleep(0.01)
             keyboard.press('space')
         if valueBird != initial_state:
             keyboard.press('down')
     else:
         initial_state = value
+        initial_state_down = valueDown
     if ticks == 100:
         difficulty_modifier *= 1.01
         x1Coordinate = multiply_coordinate(x1Coordinate, difficulty_modifier)
