@@ -96,6 +96,7 @@ while True:
     if win32api.GetKeyState(0x01) < 0:
         print("Game restart!")
         closeX, farX, difficulty_modifier, ticks, tick_reset, birdX = reset_values()
+        initial_state = image.getpixel((closeX, closeY))
     if keyboard.is_pressed('q'):
         print("Stopping game!")
         break
@@ -111,13 +112,12 @@ while True:
         keyboard.press('down')
         time.sleep(0.3)
         keyboard.release('down')
-        birdX *= 1.10
+        birdX = multiply_coordinate(birdX, 1.05)
     if ticks == tick_reset:
         difficulty_modifier *= 1.009
         farX = multiply_coordinate(farX, difficulty_modifier)
         closeX = multiply_coordinate(closeX, difficulty_modifier)
         tick_reset = multiply_coordinate(tick_reset, 1.07)
-        print(ticks)
         ticks = 0
     else:
         ticks += 1
