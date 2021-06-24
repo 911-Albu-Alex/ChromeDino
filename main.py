@@ -89,6 +89,7 @@ image = pyautogui.screenshot()
 closeX, closeY = 480, 292
 farX, farY = 520, 292
 birdX, birdY = 490, 261
+closestX, closestY = 465, 292 # this is the last resort of the AI and it MUST NOT be modified
 difficulty_modifier = 1
 ticks = 0
 initial_state = image.getpixel((closeX, closeY))
@@ -104,6 +105,9 @@ while True:
     closePixel = image.getpixel((closeX, closeY))
     farPixel = image.getpixel((farX, farY))
     birdPixel = image.getpixel((birdX, birdY))
+    closestPixel = image.getpixel((closestX, closestY))
+    if closestPixel[0] != initial_state[0]:
+        keyboard.press('space')
     if closePixel[0] != initial_state[0]:
         keyboard.press('space')
     elif farPixel[0] != initial_state[0]:
